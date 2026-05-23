@@ -73,7 +73,7 @@ def main():
             
            
             
-            response = requests.post('bankmarketingfastapi-production.up.railway.app', json={'data': user_input})
+            response = requests.post('http://bankmarketingfastapi-production.up.railway.app', json={'data': user_input})
                         
             
             # Check if the request was successful
