@@ -69,11 +69,11 @@ def main():
             print("**************  USER INPUT")            
             
             
-            response = requests.post('http://localhost:8000/predict/', json={'data': user_input})
+            # response = requests.post('http://localhost:8000/predict/', json={'data': user_input})
             
            
             
-            # response = requests.post('https://web-production-24857.up.railway.app/predict/', json={'data': user_input})
+            response = requests.post('bankmarketingfastapi-production.up.railway.app', json={'data': user_input})
                         
             
             # Check if the request was successful

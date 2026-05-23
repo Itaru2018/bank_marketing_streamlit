@@ -76,9 +76,9 @@ def main():
 
     if st.button('predict'):
         try:
-            response = requests.post('http://localhost:8000/predict/', json={'data': user_input})
+            # response = requests.post('http://localhost:8000/predict/', json={'data': user_input})
             
-            # response = requests.post('https://web-production-24857.up.railway.app/predict/', json={'data': user_input})
+            response = requests.post('bankmarketingfastapi-production.up.railway.app', json={'data': user_input})
             
             
             
