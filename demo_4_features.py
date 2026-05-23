@@ -78,7 +78,7 @@ def main():
         try:
             # response = requests.post('http://localhost:8000/predict/', json={'data': user_input})
             
-            response = requests.post('http://bankmarketingfastapi-production.up.railway.app/predict/', json={'data': user_input})
+            response = requests.post('https://bankmarketingfastapi-production.up.railway.app/predict/', json={'data': user_input})
             
             
             
