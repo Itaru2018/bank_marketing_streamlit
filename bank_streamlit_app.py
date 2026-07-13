@@ -8,29 +8,19 @@ from contact import main as page_contact
 # Get the currently selected page from session state (default to About the APP)
 default_page = st.session_state.get('page', 'About the App')
 
-# Sidebar page selector
-page_names = ['Demo (4 Features)', 'Full Input', 'About the App', 'About the Project', 'Contact']
+# Sidebar title
 st.sidebar.title('Navigation')
-page = st.sidebar.radio('Choose a page', page_names, index=page_names.index(default_page))
-st.session_state.page = page
 
-# Save the selected page into session state
-#st.session_state.page = page
+# Define pages using Streamlit's native navigation (replaces manual radio + if/elif)
+pg = st.navigation([
+    st.Page(page_demo_4, title='Demo (4 Features)'),
+    st.Page(page_full, title='Full Input'),
+    st.Page(page_about_app, title='About the App'),
+    st.Page(page_about_project, title='About the Project'),
+    st.Page(page_contact, title='Contact'),
+])
 
-# Run selected page
-if page == 'Demo (4 Features)':
-    page_demo_4()
-
-elif page == 'Full Input':
-    page_full()
-
-elif page == 'About the App':
-    page_about_app()
-
-elif page == 'About the Project':
-    page_about_project()
-
-else:
-    page_contact()
+# Run whichever page is currently selected
+pg.run()
 
 
