@@ -140,8 +140,8 @@ def main():
                 - **Tree-based** models retained all features
                 - Selected following models as top 5 models (highlighted by red) based on F1, and interpretability
                   - `Balanced XGBoost`
-                  - `SMOTE Logistic Regression` (correlation-filtered)
-                  - `SMOTE SVM` (correlation-filtered )
+                  - `SMOTE SVM` (correlation-filtered)
+                  - `SMOTE Logistic Regression` (correlation-filtered )
                   - `Balanced Logistic Regression` (correlation-filtered)
                   - `Balanced SVM` (correlation-filtered)
                 - `Balanced SVM` (**without correlation filtering**) and `SMOTE SVM` (**without correlation filtering**) have high F1 scores
@@ -156,29 +156,25 @@ def main():
                   - For more details about Bayesian Optimization, check the link below:
                 
                   → https://scikit-optimize.github.io/stable/modules/generated/skopt.BayesSearchCV.html
-                  - **Stochastic Gradient Descent (SGD) for SVM**
-                    - During optimization, SVM models failed to converge, and training took over 6 hours
-                    - This happened because Scikit-learn's SVM does not support parallel optimization and uses **batch gradient descent**, which slows convergence
-                    - To address this, I used **Stochastic Gradient Descent (SGD)**, which trained much faster and also gave better performance
-                    - A possible explanation is that SGD uses random, sample-by-sample updates, making it robust to **noisy** and **imbalanced** data, and
-                    allowing faster convergence
                 
                 - Evaluated models using **Precision-Recall AUC** and **custom thresholds**
                   - This is because the target class is **highly imbalanced** and ROC AUC does not effectively reflect the model performance
             
                 - For better visualization, the following two graphs are shown:
                   - **LEFT**: Top 3 models based on AUC scores after tuning from the top 5 models
+                  - **Middle**: Top 1 models based on AUC scores after tuning from the top 5 models
                   - **RIGHT**: All the top 5 models
                 ''')
     st.image('images/prauc_1.png', caption = 'Precision-Recall curves from top 5 models after tuning')
 
     st.markdown('''
-                **Note**: The top 3 models based on AUC, which also appear relatively stable, are:
+                **Note**: According to the graph and this investigation, I will focus on the following 3 models for further evaluation:
                    - `Balanced_XGBoost_tuned_1`
-                   - `Balanced_Logistic_Regression_corr_tuned_1` 
-                   - `SMOTE_SVM_corr_SGD_tuned_1` 
-                - Although `SMOTE_Logistic_Regression_corr_tuned_1` and `Balanced_SVM_corr_SGD_tuned_1` perform well at certain thresholds, their instability leads to lower AUC
-                - Therefore, further analysis will focus on the top 3 stable models.
+                   - `SMOTE_Logistic_Regression_corr_tuned_1` 
+                   - `SMOTE_SVM_corr_tuned_1` 
+                - Balanced_XGBoost and SMOTE_Logistic_Regression_corr rank as the top 2 performers by AUC score, and both perform stably across the PR curve.
+                - Although Balanced_Logistic_Regression_corr shows similar overall performance, it exhibits a sharp drop at a specific threshold, indicating instability in its precision-recall trade-off.
+                - Since reliable performance across thresholds matters for business decisions, I'll exclude it in favor of the three models above.
                 - To illustrate the improvement in F1 scores, the following 3 graphs are shown:
                   - **LEFT**: Baseline models (F1 Scores)
                   - **MIDDLE**: Top 5 models before Tuning (F1 Scores)
@@ -208,21 +204,21 @@ def main():
                 - After applying additional feature engineering, I retrained and tuned the top 3 models from earlier
                 - To assess the impact of feature engineering, I compared **PR AUC curves** of the top 3 models with and without the additional feature engineering
                 - For better visualization, the following two graphs are shown:
-                 - **LEFT**: Top 4 models based on AUC scores 
+                 - **LEFT**: Top 3 models based on AUC scores 
+                 - **MIDDLE**: Top 4 models based
                  - **RIGHT**: All 6 models, namely:
                    - `Balanced_XGBoost_tuned_1` 
-                   - `Balanced_Logistic_Regression_corr_tuned_1` 
-                   - `SMOTE_SVM_corr_SGD_tuned_1` 
+                   - `SMOTE_Logistic_Regression_corr_tuned_1` 
+                   - `SMOTE_SVM_corr_tuned_1` 
                    - `Balanced_XGBoost_f1` (**With additional feature engineering**)
                    - `Balanced_Logistic_Regression_corr_f1` (**With additional feature engineering**)
-                   - `SMOTE_SVM_corr_SGD_f1` (**With additional feature engineering**)
+                   - `SMOTE_SVM_corr_f1` (**With additional feature engineering**)
                ''')
     st.image('images/prauc_2.png', caption = 'Precision-Recall curves from top 3 models with and without additional feature engineering' )
     st.markdown('''
-                - I selected `Balanced_XGBoost_f1`, `Balanced_XGBoost_tuned_1`, `Balanced_Logistic_Regression_corr_tuned_1` as the final top 3 models
-                - Although the AUC score of `Balanced_Logistic Regression_corr_f1` is higher than that of `Balanced_Logistic Regression_corr_tuned_1`, 
-                  the precision-recall curve shows that `Balanced_Logistic Regression_corr_tuned_1` exhibits less fluctuation and appears more stable
-                - Therefore, I prefer `Balanced_Logistic Regression_corr_tuned_1` over the Logistic Regression model with feature engineering
+                - **Balanced_XGBoost** and **Balanced_XGBoost_f_1** are the most stable models and rank highest by AUC.
+                - By AUC, SMOTE_SVM_corr_f1 ranks third, but it shows a sharp drop near low recall, indicating it is not as stable across thresholds.
+                - So I will select the best model between **Balanced_XGBoost** and **Balanced_XGBoost_f_1**.
                 ''')
     
     # Decide the best model 
@@ -230,18 +226,17 @@ def main():
     st.markdown('''
                 - I applied the best threshold to all 3 models based on their F1 scores
                 - I plotted a comparison of the best F1 scores
-                - As a reference, `SMOTE_SVM_corr_SGD_tuned_1` with its best threshold was also included
                 - I also included the **baseline models** to visualize how much the performance improved 
                   - **LEFT**: Baseline models 
-                  - **RIGHT**: Top 3 models with `SMOTE_SVM_corr_SGD_tuned_1` as a reference
+                  - **RIGHT**: Top 3 models 
                 ''')
     st.image('images/final_model.png', caption='Comparison of F1 Scores for Baseline vs Final top 3 models + SVM (Reference)')
     st.markdown('''
                 - **Best Model: `Balanced_XGBoost_tuned_1`**
-                  - Among the top-performing models, the **XGBoost variants** achieved **the highest F1 scores** with minimal performance difference.
-                  - The `Balanced_XGBoost_tuned_f1` model includes **additional features from feature engineering**, while `Balanced_XGBoost_tuned_1`
+                - Among the top-performing models, the **XGBoost variants** achieved **the highest F1 scores** with minimal performance difference.
+                - The `Balanced_XGBoost_tuned_f1` model includes **additional features from feature engineering**, while `Balanced_XGBoost_tuned_1`
                    relies only on **the original features**
-                  - Since both models perform similarly, I selected **`Balanced_XGBoost_tuned_1`** as the final model for it's **better interpretability**,
+                - Since both models perform similarly, I selected **`Balanced_XGBoost_tuned_1`** as the final model for it's **better interpretability**,
                    as it uses only the original features
                 ''')
 
@@ -308,7 +303,7 @@ def main():
     st.markdown('''
                 ### Conclusion and Test Set Performance
                 - After extensive tuning, **XGBoost(balanced_tuned)** was selected as the final model.
-                  - **Train F1 Score:** 0.493
+                  - **Train F1 Score:** 0.494
                   - **TEST F1 Score:** 0.519
                 
                 This reflects good generalization and robust performance for an imbalanced classification task.
