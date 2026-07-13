@@ -10,9 +10,9 @@ page_names = [
 
 # Initialize only once
 if "page" not in st.session_state:
-    st.session_state.page = default_page
+    st.session_state.page = page_names[0]
 
-# Protect against an invalid/default page name
+# Protect against an invalid page name
 if st.session_state.page not in page_names:
     st.session_state.page = page_names[0]
 
@@ -39,5 +39,4 @@ elif page == "About the Project":
 
 elif page == "Contact":
     page_contact()
-
 
