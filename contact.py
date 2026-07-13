@@ -16,6 +16,18 @@ def main():
                 **GitHub**
                 [https://github.com/Itaru2018/bank_marketing.git](https://github.com/Itaru2018/bank_marketing.git)
 
+                
+                **GitHub**
+                - **Jupyter notebook**
+                [https://github.com/Itaru2018/bankmarketing_jupyter](https://github.com/Itaru2018/bankmarketing_jupyter)
+
+                - **Deployment**
+                  - Front end 
+                  [https://github.com/Itaru2018/bank_marketing_streamlit](https://github.com/Itaru2018/bank_marketing_streamlit)
+                
+                  - Back end
+                  [https://github.com/Itaru2018/bank_marketing_fastapi](https://github.com/Itaru2018/bank_marketing_fastapi)
+
                 ''')
 
 
