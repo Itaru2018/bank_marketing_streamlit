@@ -7,14 +7,14 @@ def main():
                 
                 ---
 
-                **Email**
+                **Email**:
                 [itaruyasumura@gmail.com](mailto:itaruyasumura@gmail.com)
 
-                **LinkedIn**
+                **LinkedIn**:
                 [https://linkedin.com/in/itaru-yasumura-27b05a1b2](https://linkedin.com/in/itaru-yasumura-27b05a1b2)
 
                 **GitHub**
-                - **Jupyter notebook**
+                - **Jupyter notebook**:
                 [https://github.com/Itaru2018/bankmarketing_jupyter](https://github.com/Itaru2018/bankmarketing_jupyter)
 
                 - **Deployment**
