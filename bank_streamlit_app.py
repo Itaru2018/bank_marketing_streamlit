@@ -28,12 +28,17 @@ if st.session_state.page not in page_names:
 # Sidebar page selector
 st.sidebar.title('Navigation')
 
+st.session_state.page_radio = st.session_state.page
+
 page = st.sidebar.radio(
     'Choose a page',
     page_names,
-      index=page_names.index(st.session_state.page),
+    key='page_radio',
+    on_change=lambda: st.session_state.update(page=st.session_state.page_radio),
 )
-st.session_state.page = page
+
+
+page = st.session_state.page
 
 
 # Run selected page
