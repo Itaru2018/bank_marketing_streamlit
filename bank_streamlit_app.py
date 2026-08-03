@@ -31,8 +31,9 @@ st.sidebar.title('Navigation')
 page = st.sidebar.radio(
     'Choose a page',
     page_names,
-    key='page',
+      index=page_names.index(st.session_state.page),
 )
+st.session_state.page = page
 
 
 # Run selected page
